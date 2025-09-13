@@ -2,74 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Happy Birthday Beb 💖</title>
+  <title>Surprise for Bebe 💕</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
-      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      background: #fff0f5;
+      text-align: center;
+      padding: 40px;
+      overflow-x: hidden;
     }
 
     .hidden {
       display: none;
     }
 
-    .stage {
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      color: #b31267;
-    }
-
-    .heart-btn {
-      font-size: 4rem;
+    .heart {
+      font-size: 50px;
       cursor: pointer;
-      animation: bounce 1.5s infinite;
+      animation: pulse 1s infinite;
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    input {
-      padding: 10px;
-      font-size: 1rem;
-      border: 2px solid #b31267;
-      border-radius: 8px;
-      outline: none;
-      margin-top: 10px;
-    }
-
-    button {
-      background: #b31267;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      margin-left: 10px;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #e75480;
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
 
     /* Envelope */
     .envelope {
-      width: 300px;
-      height: 200px;
+      width: 400px;
+      height: 250px;
       position: relative;
-      margin: auto;
+      margin: 40px auto;
       cursor: pointer;
     }
 
@@ -79,9 +43,9 @@
       left: 0;
       width: 0;
       height: 0;
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
-      border-bottom: 100px solid #e75480;
+      border-left: 200px solid transparent;
+      border-right: 200px solid transparent;
+      border-bottom: 125px solid #e75480;
       z-index: 2;
       transition: transform 1s ease;
       transform-origin: top;
@@ -95,14 +59,14 @@
       position: absolute;
       bottom: 0;
       left: 0;
-      width: 300px;
-      height: 100px;
+      width: 400px;
+      height: 125px;
       background: #e75480;
       z-index: 1;
     }
 
     .letter {
-      width: 800px;
+      width: 350px;
       height: 0;
       background: white;
       margin: auto;
@@ -111,8 +75,8 @@
       padding: 20px;
       box-sizing: border-box;
       font-family: 'Dancing Script', cursive;
-      font-size: 1.2rem;
-      line-height: 1.5;
+      font-size: 1.3rem;
+      line-height: 1.6;
       border-radius: 10px;
       overflow-y: auto;
       z-index: 0;
@@ -120,108 +84,104 @@
     }
 
     .envelope.open .letter {
-      height: 300px;
+      height: 400px;
     }
 
-    /* Hearts Falling */
-    .heart {
+    /* Falling hearts */
+    .heart-fall {
       position: fixed;
-      top: -10px;
-      font-size: 24px;
-      color: red;
-      animation: fall 5s linear infinite;
+      top: -50px;
+      font-size: 20px;
+      color: pink;
+      animation: fall 4s linear infinite;
     }
 
     @keyframes fall {
-      to { transform: translateY(100vh); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      to {
+        transform: translateY(100vh);
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Stage 1: Landing -->
-  <div id="stage1" class="stage">
-    <h1>click mo yung heart hehe</h1>
-    <div class="heart-btn" onclick="goToStage(2)">❤️</div>
+
+  <!-- Step 1: First Heart -->
+  <div id="page1">
+    <h2>Click the heart 💖</h2>
+    <div class="heart" onclick="goToPage2()">❤️</div>
   </div>
 
-  <!-- Stage 2: Greeting -->
-  <div id="stage2" class="stage hidden">
-    <h1>Happiest Birthday, Beb! I love you very super duper much! ❤️</h1>
-    <div class="heart-btn" onclick="goToStage(3)">💗</div>
+  <!-- Step 2: Happy Birthday Message -->
+  <div id="page2" class="hidden">
+    <h1>Happy Birthday, Bebe! 🎉💕</h1>
+    <p>Click the heart again to continue</p>
+    <div class="heart" onclick="goToPage3()">💖</div>
   </div>
 
-  <!-- Stage 3: Secret Code -->
-  <div id="stage3" class="stage hidden">
-    <h1>Unlock your surprise 💕</h1>
-    <input type="text" id="code" placeholder="Enter code">
+  <!-- Step 3: Secret Code Page -->
+  <div id="page3" class="hidden">
+    <h2>Enter the secret code to unlock 💌</h2>
+    <input type="password" id="codeInput" placeholder="Enter code">
     <button onclick="checkCode()">Unlock</button>
-    <p id="message"></p>
+    <p id="error" style="color:red;"></p>
   </div>
 
-  <!-- Stage 4: Envelope & Letter -->
-  <div id="stage4" class="stage hidden">
+  <!-- Step 4: Envelope Page -->
+  <div id="page4" class="hidden">
+    <h2>You can open me now 💕</h2>
     <div class="envelope" onclick="openEnvelope()">
       <div class="top"></div>
       <div class="bottom"></div>
-      <div class="letter" id="letter">
-        ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. 
-        so ayun, happiest birthday, bebe! 🥰 idk pano ko ba sisimulan tong bati kasi baka same lang 
-        as before yung mga greetings ko sayo sa previous birthdays mo. pero syempre, may mga bagay talaga 
-        na never nagbabago like how super grateful and thankful pa rin ako na meron akong ikaw sa life ko. 
-        every birthday mo, gusto ko talaga na maramdaman mo how special this day is, kasi special ka sa’kin. 
-        kahit ngayon thru message lang tsaka na yung gift beb hehe, sana maramdaman mo pa rin how much you mean to me. 
-        u deserve all the happiness, love, and success in the world, kaya I’ll always hope na maachieve mo lahat ng goals 
-        mo at makuha lahat ng bagay na pinapangarap mo. gusto ko rin iremind ka na I appreciate everything u do for me, 
-        thank you sa love na binibigay mo sakin. at syempre yung love ko, sayo din yon lahat hindi mauubos at di mawawala. 
-        ang hard ng ldr setup natin, pero nakakaproud kasi kahit malayo tayo sa isa’t isa most of the time, we always 
-        find ways to make it work. kahit once a month lang tayo nagkikita, those moments mean so much to me. kahit minsan 
-        namimiss kita ng sobra, naiisip ko na worth it lahat ng waits ko kasi ikaw yung hinihintay ko. and no matter the distance, 
-        never nagbago yung love ko sayo mas lalo pa ngang lumalalim e. so on your special day, gusto ko lang ulit ipaalala 
-        na i'm so proud of u and i’ll always be here for u, supporting u, cheering for u, and loving u. happy happiest birthday ulit, 
-        bebe. hoping on more birthdays of u na magkasama natin maceleb at more memories na sabay nating ibuild hehe konting tiis nalang beb. 
-        i miss you so much and i love you so much! 
+      <div class="letter">
+        <p>My dearest Bebe,</p>
+        <p>
+          Happiest Birthday! 🎂 Thank you for always being my source of joy.  
+          I love you endlessly, and I hope this little surprise makes you smile. 💕  
+        </p>
+        <p>— Your forever love 💖</p>
+        <img src="your-photo.jpg" alt="Us" style="width:100%; margin-top:10px; border-radius:10px;">
       </div>
     </div>
   </div>
 
   <script>
-    function goToStage(stage) {
-      document.querySelectorAll('.stage').forEach(div => div.classList.add('hidden'));
-      document.getElementById('stage' + stage).classList.remove('hidden');
+    function goToPage2() {
+      document.getElementById("page1").classList.add("hidden");
+      document.getElementById("page2").classList.remove("hidden");
+    }
+
+    function goToPage3() {
+      document.getElementById("page2").classList.add("hidden");
+      document.getElementById("page3").classList.remove("hidden");
     }
 
     function checkCode() {
-      const code = document.getElementById('code').value;
-      const msg = document.getElementById('message');
-      if (code === "071622") {
-        msg.innerHTML = "You can open me now 💌";
-        goToStage(4);
+      const code = document.getElementById("codeInput").value;
+      if (code === "071622") { // change to your code
+        document.getElementById("page3").classList.add("hidden");
+        document.getElementById("page4").classList.remove("hidden");
       } else {
-        msg.innerHTML = "Oops, try again!";
+        document.getElementById("error").textContent = "Wrong code, try again!";
       }
     }
 
     function openEnvelope() {
-      const env = document.querySelector('.envelope');
-      env.classList.add('open');
-      startHearts();
+      document.querySelector(".envelope").classList.add("open");
+      startFallingHearts();
     }
 
-    function startHearts() {
+    function startFallingHearts() {
       for (let i = 0; i < 20; i++) {
-        let heart = document.createElement('div');
-        heart.classList.add('heart');
-        heart.innerHTML = "❤️";
+        let heart = document.createElement("div");
+        heart.className = "heart-fall";
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (2 + Math.random() * 3) + "s";
+        heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        heart.textContent = "💖";
         document.body.appendChild(heart);
 
-        setTimeout(() => { heart.remove(); }, 5000);
+        setTimeout(() => {
+          heart.remove();
+        }, 5000);
       }
     }
   </script>
