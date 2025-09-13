@@ -156,6 +156,43 @@
       cursor: pointer;
     }
 
+    /* Stage 3 keypad */
+    .code-input {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .code-input input {
+      width: 40px;
+      height: 50px;
+      font-size: 1.5rem;
+      text-align: center;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      gap: 10px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .keypad button {
+      width: 60px;
+      height: 60px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #fff;
+      color: #000;
+    }
+    .keypad button:hover {
+      background: #ddd;
+    }
+
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   </style>
 </head>
@@ -174,11 +211,31 @@
     <div class="heart-btn" onclick="goToStage(3)">💗</div>
   </div>
 
-  <!-- Stage 3 -->
+  <!-- Stage 3 (UPDATED with keypad) -->
   <div id="stage3" class="stage hidden">
-    <h1>open mo nga to hehe hmmm ang hint...</h1>
-    <input type="text" id="code" placeholder="Enter code">
-    <button onclick="checkCode()">Unlock</button>
+    <h1>sige nga open mpo nga hulaan mo code hahhaha pag nahulaan mo beb mahal mo ako</h1>
+    <div class="code-input">
+      <input type="password" maxlength="1" id="digit1">
+      <input type="password" maxlength="1" id="digit2">
+      <input type="password" maxlength="1" id="digit3">
+      <input type="password" maxlength="1" id="digit4">
+      <input type="password" maxlength="1" id="digit5">
+      <input type="password" maxlength="1" id="digit6">
+    </div>
+    <div class="keypad">
+      <button onclick="pressNum('1')">1</button>
+      <button onclick="pressNum('2')">2</button>
+      <button onclick="pressNum('3')">3</button>
+      <button onclick="pressNum('4')">4</button>
+      <button onclick="pressNum('5')">5</button>
+      <button onclick="pressNum('6')">6</button>
+      <button onclick="pressNum('7')">7</button>
+      <button onclick="pressNum('8')">8</button>
+      <button onclick="pressNum('9')">9</button>
+      <button onclick="clearCode()">⌫</button>
+      <button onclick="pressNum('0')">0</button>
+      <button onclick="checkCode()">✔</button>
+    </div>
     <p id="message"></p>
   </div>
 
@@ -254,14 +311,35 @@
       }
     }
 
+    // keypad logic
+    function pressNum(num) {
+      for (let i = 1; i <= 6; i++) {
+        let box = document.getElementById('digit' + i);
+        if (box.value === "") {
+          box.value = num;
+          break;
+        }
+      }
+    }
+
+    function clearCode() {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById('digit' + i).value = "";
+      }
+    }
+
     function checkCode() {
-      const code = document.getElementById('code').value;
+      let entered = "";
+      for (let i = 1; i <= 6; i++) {
+        entered += document.getElementById('digit' + i).value;
+      }
       const msg = document.getElementById('message');
-      if (code === "071622") {
+      if (entered === "071622") {
         msg.innerHTML = "You can open me now 💌";
         goToStage(4);
       } else {
         msg.innerHTML = "Oops, try again!";
+        clearCode();
       }
     }
 
