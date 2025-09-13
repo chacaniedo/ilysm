@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday Bebe 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      text-align: center;
+      background: black;
+      overflow: hidden;
+    }
+    .hidden { display: none; }
+    .center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #ff4d6d;
+      color: white;
+    }
+    .hearts {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+    .heart {
+      font-size: 60px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .heart.clicked {
+      color: #ff4d6d;
+      transform: scale(1.3);
+    }
+    /* Slideshow background */
+    .slideshow {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .slideshow img {
+      position: absolute;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      animation: fade 15s infinite;
+    }
+    .slideshow img:nth-child(1) { animation-delay: 0s; }
+    .slideshow img:nth-child(2) { animation-delay: 5s; }
+    .slideshow img:nth-child(3) { animation-delay: 10s; }
+    @keyframes fade {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      30% { opacity: 1; }
+      40% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    /* Typewriter */
+    #message {
+      width: 70%;
+      margin: auto;
+      font-size: 20px;
+      line-height: 1.6;
+      white-space: pre-line;
+      border-right: 2px solid white;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Intro -->
+  <div id="intro" class="center">
+    <h1>Hi bebe, I have something for you 💖</h1>
+    <button onclick="showPuzzle()">Click to Start</button>
+  </div>
+
+  <!-- Puzzle Unlock -->
+  <div id="puzzle" class="center hidden">
+    <h2>Click all 3 hearts to unlock 💕</h2>
+    <div class="hearts">
+      <div class="heart" onclick="clickHeart(this)">🤍</div>
+      <div class="heart" onclick="clickHeart(this)">🤍</div>
+      <div class="heart" onclick="clickHeart(this)">🤍</div>
+    </div>
+  </div>
+
+  <!-- Slideshow + Message -->
+  <div id="slideshow-container" class="hidden">
+    <div class="slideshow">
+      <!-- Replace with your own photos -->
+      <img src="https://picsum.photos/id/1015/1920/1080" alt="">
+      <img src="https://picsum.photos/id/1016/1920/1080" alt="">
+      <img src="https://picsum.photos/id/1025/1920/1080" alt="">
+    </div>
+    <div class="center">
+      <h1>Happy Birthday, my love! 🎉</h1>
+      <div id="message"></div>
+    </div>
+  </div>
+
+  <script>
+    function showPuzzle() {
+      document.getElementById("intro").classList.add("hidden");
+      document.getElementById("puzzle").classList.remove("hidden");
+    }
+
+    let heartsClicked = 0;
+    function clickHeart(el) {
+      if (!el.classList.contains("clicked")) {
+        el.classList.add("clicked");
+        el.textContent = "❤️";
+        heartsClicked++;
+      }
+      if (heartsClicked === 3) {
+        setTimeout(showSlideshow, 500);
+      }
+    }
+
+    function showSlideshow() {
+      document.getElementById("puzzle").classList.add("hidden");
+      document.getElementById("slideshow-container").classList.remove("hidden");
+      typeWriter();
+    }
+
+    // Typewriter Effect
+    const text = `Ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. 
+So ayun, happiest birthday, bebe! 🥰 Idk pano ko ba sisimulan tong bati kasi baka same lang as before yung mga greetings ko sayo sa previous birthdays mo. 
+Pero syempre, may mga bagay talaga na never nagbabago like how super grateful and thankful pa rin ako na meron akong ikaw sa life ko. 
+
+Every birthday mo, gusto ko talaga na maramdaman mo how special this day is, kasi special ka sa’kin. 
+Kahit ngayon thru message lang tsaka na yung gift beb hehe, sana maramdaman mo pa rin how much you mean to me. 
+
+U deserve all the happiness, love, and success in the world, kaya I’ll always hope na maachieve mo lahat ng goals mo at makuha lahat ng bagay na pinapangarap mo. 
+Gusto ko rin iremind ka na I appreciate everything u do for me, thank you sa love na binibigay mo sakin. 
+At syempre yung love ko, sayo din yon lahat hindi mauubos at di mawawala. 
+
+Ang hard ng ldr setup natin, pero nakakaproud kasi kahit malayo tayo, we always find ways to make it work. 
+Kahit once a month lang tayo nagkikita, those moments mean so much to me. 
+
+Happy happiest birthday ulit, bebe. Hoping on more birthdays na magkasama natin i-celebrate at more memories na sabay nating i-build. 
+Konting tiis na lang beb. I miss you so much and I love you so much! 😘`;
+
+    let i = 0;
+    function typeWriter() {
+      if (i < text.length) {
+        document.getElementById("message").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeWriter, 40);
+      }
+    }
+  </script>
+
+</body>
+</html>
