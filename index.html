@@ -11,8 +11,9 @@
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+      background: linear-gradient(135deg, #000, #333); /* black theme */
       overflow: hidden;
+      color: white;
     }
 
     .hidden { display: none; }
@@ -25,7 +26,7 @@
 
     h1 {
       font-size: 2.2rem;
-      color: #b31267;
+      color: #fff;
       margin: 0 20px;
     }
 
@@ -51,15 +52,15 @@
     .envelope {
       width: 320px;
       height: 200px;
-      background: #fdfdfd;
-      border: 5px solid #e6e6e6;
+      background: #f9f9f9;
+      border: 5px solid #444;
       border-radius: 6px;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
       pointer-events: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(255,255,255,0.2);
       overflow: hidden;
     }
 
@@ -73,10 +74,10 @@
       z-index: 90;
     }
 
-    .flap.top { top: 0; left: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-bottom: 100px solid #e75480; transform-origin: 50% 0%; }
-    .flap.bottom { bottom: 0; left: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 100px solid #e75480; }
-    .flap.left { top: 0; left: 0; border-top: 100px solid transparent; border-bottom: 100px solid transparent; border-right: 160px solid #e75480; }
-    .flap.right { top: 0; right: 0; border-top: 100px solid transparent; border-bottom: 100px solid transparent; border-left: 160px solid #e75480; }
+    .flap.top { top: 0; left: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-bottom: 100px solid #666; transform-origin: 50% 0%; }
+    .flap.bottom { bottom: 0; left: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 100px solid #666; }
+    .flap.left { top: 0; left: 0; border-top: 100px solid transparent; border-bottom: 100px solid transparent; border-right: 160px solid #666; }
+    .flap.right { top: 0; right: 0; border-top: 100px solid transparent; border-bottom: 100px solid transparent; border-left: 160px solid #666; }
 
     .seal {
       position: absolute;
@@ -89,7 +90,7 @@
       user-select: none;
       pointer-events: auto;
       transition: transform 0.25s, opacity 0.4s;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      text-shadow: 0 2px 4px rgba(255,255,255,0.4);
     }
 
     .letter {
@@ -97,28 +98,30 @@
       top: 100%;
       left: 50%;
       transform: translateX(-50%);
-      width: 250px;
-      height: 600px;
-      background: repeating-linear-gradient(to bottom, #ffffff, #ffffff 24px, #d1d1d1 25px);
-      border: 1px solid #ccc;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.2);
-      padding: 20px;
+      width: 650px;  /* longer */
+      height: 700px; /* taller */
+      background: repeating-linear-gradient(
+        to bottom,
+        #fff,
+        #fff 24px,
+        #ccc 25px
+      );
+      border: 1px solid #999;
+      box-shadow: 0 6px 18px rgba(255,255,255,0.2);
+      padding: 30px;
       font-family: "Dancing Script", cursive;
       color: black;
-      line-height: 25px;
+      line-height: 28px;
       border-radius: 8px;
       z-index: 200;
       opacity: 0;
       transition: top 0.8s cubic-bezier(.2,1,.2,1), opacity 0.6s ease;
-      overflow-y: auto;
       text-align: left;
     }
 
     .envelope-wrapper.open .letter {
       top: -40px;
       opacity: 1;
-      width: 520px;
-      height: 420px;
     }
 
     .envelope-wrapper.open .flap.top { transform: translateY(-120%) rotateX(180deg); opacity: 0; }
@@ -145,8 +148,8 @@
       height: auto;
       background: #fff;
       padding: 10px;
-      border: 4px solid #ccc;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      border: 4px solid #000;
+      box-shadow: 0 8px 20px rgba(255,255,255,0.4);
       border-radius: 6px;
       display: none;
       z-index: 999;
@@ -164,16 +167,16 @@
 
   <!-- Stage 2 -->
   <div id="stage2" class="stage hidden">
-    <h1>Happiest Birthday, Bebe! I love you very super duper much! 
-      I hope you are enjoying ur day. It makes me so happy to see u smiling on this special day of yours. 
-      You deserve all the love and happiness in this world pero wag naman yung katulad ng love na meron tayo 
-      hahaaha I'll always be here for u no matter what happen. I miss you so much and I love you so much!</h1>
+    <h1>Happiest Birthday, Bebe! I love you very super duper much!
+      I hope you are enjoying ur day. It makes me so happy to see u smiling on this special day of yours.
+      You deserve all the love and happiness in this world pero wag naman yung katulad ng love na meron tayo hahaaha
+      I'll always be here for u no matter what happen. I miss you so much and I love you so much!</h1>
     <div class="heart-btn" onclick="goToStage(3)">💗</div>
   </div>
 
   <!-- Stage 3 -->
   <div id="stage3" class="stage hidden">
-    <h1>open mo nga to hehe hmmm ang hint ay yung nagalit ka sakin kasi inaasar kita na wala tayo label hahaha</h1>
+    <h1>open mo nga to hehe hmmm ang hint...</h1>
     <input type="text" id="code" placeholder="Enter code">
     <button onclick="checkCode()">Unlock</button>
     <p id="message"></p>
@@ -205,46 +208,41 @@
         never nagbago yung love ko sayo mas lalo pa ngang lumalalim e. so on your special day, gusto ko lang ulit ipaalala 
         na i'm so proud of u and i’ll always be here for u, supporting u, cheering for u, and loving u. happy happiest birthday ulit, 
         bebe. hoping on more birthdays of u na magkasama natin maceleb at more memories na sabay nating ibuild hehe konting tiis nalang beb. 
-        i miss you so much and i love you so much! 
+        i miss you so much and i love you so much!
       </div>
     </div>
 
     <!-- Hearts (13 total) -->
-<div id="photoHearts" class="hidden">
-  <div class="photo-heart" style="top:15%; left:8%;" onclick="togglePhoto(1)">💖</div>
-  <div class="photo-heart" style="top:15%; left:45%;" onclick="togglePhoto(2)">💖</div>
-  <div class="photo-heart" style="top:15%; right:8%;" onclick="togglePhoto(3)">💖</div>
+    <div id="photoHearts" class="hidden">
+      <div class="photo-heart" style="top:15%; left:8%;" onclick="togglePhoto(1)">💖</div>
+      <div class="photo-heart" style="top:15%; left:45%;" onclick="togglePhoto(2)">💖</div>
+      <div class="photo-heart" style="top:15%; right:8%;" onclick="togglePhoto(3)">💖</div>
+      <div class="photo-heart" style="top:35%; left:12%;" onclick="togglePhoto(4)">💖</div>
+      <div class="photo-heart" style="top:35%; right:12%;" onclick="togglePhoto(5)">💖</div>
+      <div class="photo-heart" style="top:55%; left:8%;" onclick="togglePhoto(6)">💖</div>
+      <div class="photo-heart" style="top:55%; left:45%;" onclick="togglePhoto(7)">💖</div>
+      <div class="photo-heart" style="top:55%; right:8%;" onclick="togglePhoto(8)">💖</div>
+      <div class="photo-heart" style="bottom:25%; left:15%;" onclick="togglePhoto(9)">💖</div>
+      <div class="photo-heart" style="bottom:25%; right:15%;" onclick="togglePhoto(10)">💖</div>
+      <div class="photo-heart" style="bottom:10%; left:25%;" onclick="togglePhoto(11)">💖</div>
+      <div class="photo-heart" style="bottom:10%; left:50%;" onclick="togglePhoto(12)">💖</div>
+      <div class="photo-heart" style="bottom:10%; right:25%;" onclick="togglePhoto(13)">💖</div>
+    </div>
 
-  <div class="photo-heart" style="top:35%; left:12%;" onclick="togglePhoto(4)">💖</div>
-  <div class="photo-heart" style="top:35%; right:12%;" onclick="togglePhoto(5)">💖</div>
-
-  <div class="photo-heart" style="top:55%; left:8%;" onclick="togglePhoto(6)">💖</div>
-  <div class="photo-heart" style="top:55%; left:45%;" onclick="togglePhoto(7)">💖</div>
-  <div class="photo-heart" style="top:55%; right:8%;" onclick="togglePhoto(8)">💖</div>
-
-  <div class="photo-heart" style="bottom:25%; left:15%;" onclick="togglePhoto(9)">💖</div>
-  <div class="photo-heart" style="bottom:25%; right:15%;" onclick="togglePhoto(10)">💖</div>
-
-  <div class="photo-heart" style="bottom:10%; left:25%;" onclick="togglePhoto(11)">💖</div>
-  <div class="photo-heart" style="bottom:10%; left:50%;" onclick="togglePhoto(12)">💖</div>
-  <div class="photo-heart" style="bottom:10%; right:25%;" onclick="togglePhoto(13)">💖</div>
-</div>
-
-<!-- Photos (13 total) -->
-<img src="pic1.jpg" id="photo1" class="photo" onclick="togglePhoto(1)">
-<img src="pic2.jpg" id="photo2" class="photo" onclick="togglePhoto(2)">
-<img src="pic3.jpg" id="photo3" class="photo" onclick="togglePhoto(3)">
-<img src="pic4.jpg" id="photo4" class="photo" onclick="togglePhoto(4)">
-<img src="pic5.jpg" id="photo5" class="photo" onclick="togglePhoto(5)">
-<img src="pic6.jpg" id="photo6" class="photo" onclick="togglePhoto(6)">
-<img src="pic7.jpg" id="photo7" class="photo" onclick="togglePhoto(7)">
-<img src="pic8.jpg" id="photo8" class="photo" onclick="togglePhoto(8)">
-<img src="pic9.jpg" id="photo9" class="photo" onclick="togglePhoto(9)">
-<img src="pic10.jpg" id="photo10" class="photo" onclick="togglePhoto(10)">
-<img src="pic11.jpg" id="photo11" class="photo" onclick="togglePhoto(11)">
-<img src="pic12.jpg" id="photo12" class="photo" onclick="togglePhoto(12)">
-<img src="pic13.jpg" id="photo13" class="photo" onclick="togglePhoto(13)">
-
+    <!-- Photos (13 total) -->
+    <img src="pic1.jpg" id="photo1" class="photo" onclick="togglePhoto(1)">
+    <img src="pic2.jpg" id="photo2" class="photo" onclick="togglePhoto(2)">
+    <img src="pic3.jpg" id="photo3" class="photo" onclick="togglePhoto(3)">
+    <img src="pic4.jpg" id="photo4" class="photo" onclick="togglePhoto(4)">
+    <img src="pic5.jpg" id="photo5" class="photo" onclick="togglePhoto(5)">
+    <img src="pic6.jpg" id="photo6" class="photo" onclick="togglePhoto(6)">
+    <img src="pic7.jpg" id="photo7" class="photo" onclick="togglePhoto(7)">
+    <img src="pic8.jpg" id="photo8" class="photo" onclick="togglePhoto(8)">
+    <img src="pic9.jpg" id="photo9" class="photo" onclick="togglePhoto(9)">
+    <img src="pic10.jpg" id="photo10" class="photo" onclick="togglePhoto(10)">
+    <img src="pic11.jpg" id="photo11" class="photo" onclick="togglePhoto(11)">
+    <img src="pic12.jpg" id="photo12" class="photo" onclick="togglePhoto(12)">
+    <img src="pic13.jpg" id="photo13" class="photo" onclick="togglePhoto(13)">
   </div>
 
   <script>
@@ -276,7 +274,6 @@
     function openEnvelope() {
       const wrapper = document.getElementById('envWrapper');
       wrapper.classList.add('open');
-      // show hearts after letter slides out
       setTimeout(() => {
         document.getElementById('photoHearts').classList.remove('hidden');
       }, 800);
