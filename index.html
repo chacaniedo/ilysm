@@ -16,35 +16,31 @@
     }
 
     .hidden { display: none; }
-    .stage { text-align: center; animation: fadeIn 1s ease-in-out; width: 100%; }
-    h1 { font-size: 2.2rem; color: #b31267; margin: 0 20px; }
+
+    .stage {
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      color: #b31267;
+      margin: 0 20px;
+    }
 
     .heart-btn {
       font-size: 4rem;
       cursor: pointer;
       animation: bounce 1.5s infinite;
     }
+
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
       50% { transform: translateY(-10px); }
     }
 
-    input {
-      padding: 10px;
-      font-size: 1rem;
-      border: 2px solid #b31267;
-      border-radius: 8px;
-      outline: none;
-      margin-top: 10px;
-    }
-    button {
-      background: #b31267; color: white; border: none;
-      padding: 10px 20px; margin-left: 10px;
-      font-size: 1rem; border-radius: 8px; cursor: pointer;
-    }
-    button:hover { background: #e75480; }
-
-    /* ===== Stage 4: Envelope wrapper ===== */
+    /* Envelope wrapper */
     .envelope-wrapper {
       position: relative;
       width: 340px;
@@ -59,104 +55,105 @@
       border: 5px solid #e6e6e6;
       border-radius: 6px;
       position: absolute;
-      top: 50%; left: 50%;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
       pointer-events: none;
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       overflow: hidden;
     }
 
-    /* Flaps */
-    .flap { position: absolute; width: 0; height: 0; border-style: solid;
+    .flap {
+      position: absolute;
+      width: 0;
+      height: 0;
+      border-style: solid;
       transition: transform 0.6s cubic-bezier(.2,1,.2,1), opacity 0.4s;
-      backface-visibility: hidden; z-index: 90; }
-    .flap.top { top: 0; left: 0;
-      border-left: 160px solid transparent; border-right: 160px solid transparent;
-      border-bottom: 100px solid #e75480; transform-origin: 50% 0%; }
-    .flap.bottom { bottom: 0; left: 0;
-      border-left: 160px solid transparent; border-right: 160px solid transparent;
-      border-top: 100px solid #e75480; }
-    .flap.left { top: 0; left: 0;
-      border-top: 100px solid transparent; border-bottom: 100px solid transparent;
-      border-right: 160px solid #e75480; }
-    .flap.right { top: 0; right: 0;
-      border-top: 100px solid transparent; border-bottom: 100px solid transparent;
-      border-left: 160px solid #e75480; }
+      backface-visibility: hidden;
+      z-index: 90;
+    }
 
-    /* Heart seal */
+    .flap.top { top: 0; left: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-bottom: 100px solid #e75480; transform-origin: 50% 0%; }
+    .flap.bottom { bottom: 0; left: 0; border-left: 160px solid transparent; border-right: 160px solid transparent; border-top: 100px solid #e75480; }
+    .flap.left { top: 0; left: 0; border-top: 100px solid transparent; border-bottom: 100px solid transparent; border-right: 160px solid #e75480; }
+    .flap.right { top: 0; right: 0; border-top: 100px solid transparent; border-bottom: 100px solid transparent; border-left: 160px solid #e75480; }
+
     .seal {
-      position: absolute; top: 50%; left: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 2rem; cursor: pointer;
-      z-index: 110; user-select: none; pointer-events: auto;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 110;
+      user-select: none;
+      pointer-events: auto;
       transition: transform 0.25s, opacity 0.4s;
       text-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
-    .seal:active { transform: translate(-50%, -50%) scale(0.95); }
 
-    /* Letter */
     .letter {
       position: absolute;
-      top: 100%; left: 50%;
+      top: 100%;
+      left: 50%;
       transform: translateX(-50%);
-      width: 250px; height: 300px;
-      background: repeating-linear-gradient(
-        to bottom, #fff, #fff 24px, #d1d1d1 25px
-      );
+      width: 250px;
+      height: 600px;
+      background: repeating-linear-gradient(to bottom, #ffffff, #ffffff 24px, #d1d1d1 25px);
       border: 1px solid #ccc;
       box-shadow: 0 6px 18px rgba(0,0,0,0.2);
       padding: 20px;
       font-family: "Dancing Script", cursive;
-      color: black; line-height: 25px;
+      color: black;
+      line-height: 25px;
       border-radius: 8px;
-      z-index: 200; opacity: 0;
+      z-index: 200;
+      opacity: 0;
       transition: top 0.8s cubic-bezier(.2,1,.2,1), opacity 0.6s ease;
-      overflow-y: auto; text-align: left;
+      overflow-y: auto;
+      text-align: left;
     }
+
     .envelope-wrapper.open .letter {
-      top: -40px; opacity: 1;
-      width: 520px; height: 420px;
+      top: -40px;
+      opacity: 1;
+      width: 520px;
+      height: 420px;
     }
+
     .envelope-wrapper.open .flap.top { transform: translateY(-120%) rotateX(180deg); opacity: 0; }
     .envelope-wrapper.open .flap.bottom { transform: translateY(120%); opacity: 0; }
     .envelope-wrapper.open .flap.left { transform: translateX(-120%); opacity: 0; }
     .envelope-wrapper.open .flap.right { transform: translateX(120%); opacity: 0; }
     .envelope-wrapper.open .seal { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
 
-    /* Floating hearts */
-    .heart { position: fixed; top: -10px; font-size: 24px; color: red;
-      animation: fall 5s linear infinite; z-index: 999; }
-    @keyframes fall { to { transform: translateY(100vh); } }
+    /* Floating hearts for photos */
+    .photo-heart {
+      position: absolute;
+      font-size: 2.5rem;
+      cursor: pointer;
+      animation: bounce 1.5s infinite;
+    }
+
+    /* Polaroid photo */
+    .photo {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 280px;
+      height: auto;
+      background: #fff;
+      padding: 10px;
+      border: 4px solid #ccc;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      border-radius: 6px;
+      display: none;
+      z-index: 999;
+      cursor: pointer;
+    }
+
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    /* Polaroid spots */
-    .photo-spot {
-      position: absolute;
-      width: 120px; height: 140px;
-      display: flex; justify-content: center; align-items: center;
-    }
-    .photo-spot img {
-      position: absolute;
-      width: 100%; height: auto;
-      border: 8px solid white;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-      border-radius: 6px; background: #fff;
-      transform: rotate(-5deg);
-      opacity: 0; transition: opacity 0.6s ease, transform 0.4s ease;
-    }
-    .photo-spot .mini-heart {
-      font-size: 30px; cursor: pointer;
-      animation: bounce 1s infinite alternate; z-index: 2;
-    }
-    .top-left { top: 10%; left: 5%; }
-    .top-right { top: 10%; right: 5%; }
-    .bottom-left { bottom: 10%; left: 5%; }
-    .bottom-right { bottom: 10%; right: 5%; }
-
-    @media (max-width: 640px) {
-      .envelope-wrapper { width: 260px; height: 200px; }
-      .letter { width: 90vw !important; height: 65vh !important; }
-    }
   </style>
 </head>
 <body>
@@ -167,35 +164,31 @@
 
   <!-- Stage 2 -->
   <div id="stage2" class="stage hidden">
-    <h1>Happiest Birthday, Bebe! I love you very super duper much!
-      I hope you are enjoying ur day. It makes me so happy to see u smiling on this special day of yours.
-      You deserve all the love and happiness in this world pero wag naman yung katulad ng love na meron tayo hahaaha
-      I'll always be here for u no matter what happen. I miss you so much and I love you so much! ❤️</h1>
-    <div style="height:20px;"></div>
+    <h1>Happiest Birthday, Bebe! I love you very super duper much! 
+      I hope you are enjoying ur day. It makes me so happy to see u smiling on this special day of yours. 
+      You deserve all the love and happiness in this world pero wag naman yung katulad ng love na meron tayo 
+      hahaaha I'll always be here for u no matter what happen. I miss you so much and I love you so much!</h1>
     <div class="heart-btn" onclick="goToStage(3)">💗</div>
   </div>
 
   <!-- Stage 3 -->
   <div id="stage3" class="stage hidden">
-    <h1>open mo nga to hehe ...</h1>
-    <div style="margin-top:9px;">
-      <input type="text" id="code" placeholder="Enter code">
-      <button onclick="checkCode()">Unlock</button>
-    </div>
+    <h1>open mo nga to hehe hmmm ang hint ay yung nagalit ka sakin kasi inaasar kita na wala tayo label hahaha</h1>
+    <input type="text" id="code" placeholder="Enter code">
+    <button onclick="checkCode()">Unlock</button>
     <p id="message"></p>
   </div>
 
   <!-- Stage 4 -->
   <div id="stage4" class="stage hidden">
     <div class="envelope-wrapper" id="envWrapper">
-      <div class="envelope" id="envelope">
+      <div class="envelope">
         <div class="flap top"></div>
         <div class="flap left"></div>
         <div class="flap right"></div>
         <div class="flap bottom"></div>
-        <div class="seal" id="seal" title="Open letter">❤️</div>
+        <div class="seal" id="seal">❤️</div>
       </div>
-
       <div class="letter" id="letter">
         ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. 
         so ayun, happiest birthday, bebe! 🥰 idk pano ko ba sisimulan tong bati kasi baka same lang 
@@ -212,34 +205,32 @@
         never nagbago yung love ko sayo mas lalo pa ngang lumalalim e. so on your special day, gusto ko lang ulit ipaalala 
         na i'm so proud of u and i’ll always be here for u, supporting u, cheering for u, and loving u. happy happiest birthday ulit, 
         bebe. hoping on more birthdays of u na magkasama natin maceleb at more memories na sabay nating ibuild hehe konting tiis nalang beb. 
-        i miss you so much and i love you so much!
-      </div>
-
-      <!-- Polaroid spots -->
-      <div class="photo-spot top-left">
-        <div class="mini-heart">❤️</div>
-        <img src="picc1.jpg" alt="Photo 1">
-      </div>
-      <div class="photo-spot top-right">
-        <div class="mini-heart">❤️</div>
-        <img src="pic2.jpg" alt="Photo 2">
-      </div>
-      <div class="photo-spot bottom-left">
-        <div class="mini-heart">❤️</div>
-        <img src="pic3.jpg" alt="Photo 3">
-      </div>
-      <div class="photo-spot bottom-right">
-        <div class="mini-heart">❤️</div>
-        <img src="photo4.jpg" alt="Photo 4">
+        i miss you so much and i love you so much! 
       </div>
     </div>
+
+    <!-- Photo hearts (hidden until seal clicked) -->
+    <div id="photoHearts" class="hidden">
+      <div class="photo-heart" style="top:20%; left:10%;" onclick="togglePhoto(1)">💖</div>
+      <div class="photo-heart" style="top:20%; right:10%;" onclick="togglePhoto(2)">💖</div>
+      <div class="photo-heart" style="bottom:20%; left:10%;" onclick="togglePhoto(3)">💖</div>
+      <div class="photo-heart" style="bottom:20%; right:10%;" onclick="togglePhoto(4)">💖</div>
+    </div>
+
+    <!-- Photos -->
+    <img src="pic1.jpg" id="photo1" class="photo" onclick="togglePhoto(1)">
+    <img src="pic2.jpg" id="photo2" class="photo" onclick="togglePhoto(2)">
+    <img src="pic3.jpg" id="photo3" class="photo" onclick="togglePhoto(3)">
+    <img src="pic4.jpg" id="photo4" class="photo" onclick="togglePhoto(4)">
   </div>
 
   <script>
     function goToStage(stage) {
       document.querySelectorAll('.stage').forEach(div => div.classList.add('hidden'));
       document.getElementById('stage' + stage).classList.remove('hidden');
-      if (stage === 4) document.getElementById('envWrapper').classList.remove('open');
+      if (stage === 4) {
+        document.getElementById('envWrapper').classList.remove('open');
+      }
     }
 
     function checkCode() {
@@ -248,41 +239,31 @@
       if (code === "071622") {
         msg.innerHTML = "You can open me now 💌";
         goToStage(4);
-      } else { msg.innerHTML = "Oops, try again!"; }
+      } else {
+        msg.innerHTML = "Oops, try again!";
+      }
     }
 
-    document.addEventListener('click', function (e) {
-      if (e.target && e.target.id === 'seal') openEnvelope();
+    document.addEventListener('click', e => {
+      if (e.target.id === 'seal') {
+        openEnvelope();
+      }
     });
 
     function openEnvelope() {
       const wrapper = document.getElementById('envWrapper');
       wrapper.classList.add('open');
-      setTimeout(startHearts, 300);
+      // show hearts after letter slides out
+      setTimeout(() => {
+        document.getElementById('photoHearts').classList.remove('hidden');
+      }, 800);
     }
 
-    function startHearts() {
-      for (let i = 0; i < 20; i++) {
-        let heart = document.createElement('div');
-        heart.classList.add('heart');
-        heart.innerHTML = "❤️";
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.animationDuration = (2 + Math.random() * 3) + "s";
-        document.body.appendChild(heart);
-        setTimeout(() => { heart.remove(); }, 5000);
-      }
+    function togglePhoto(num) {
+      const photo = document.getElementById('photo' + num);
+      photo.style.display = (photo.style.display === "block") ? "none" : "block";
     }
-
-    // Photo reveal
-    document.querySelectorAll(".photo-spot").forEach(spot => {
-      const heart = spot.querySelector(".mini-heart");
-      const img = spot.querySelector("img");
-      heart.addEventListener("click", () => {
-        heart.style.display = "none";
-        img.style.opacity = "1";
-        img.style.transform = "rotate(0deg)";
-      });
-    });
   </script>
 </body>
 </html>
+
