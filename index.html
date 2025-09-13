@@ -22,11 +22,13 @@
     .stage {
       text-align: center;
       animation: fadeIn 1s ease-in-out;
+      width: 100%;
     }
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       color: #b31267;
+      margin: 0 20px;
     }
 
     .heart-btn {
@@ -64,39 +66,51 @@
       background: #e75480;
     }
 
-    /* Envelope */
-    .envelope {
-      width: 300px;
-      height: 200px;
+    /* ===== Stage 4: Envelope wrapper (centered) ===== */
+    .envelope-wrapper {
       position: relative;
+      width: 340px;   /* envelope area centered */
+      height: 240px;
       margin: auto;
     }
 
+    /* Envelope body */
+    .envelope {
+      width: 320px;
+      height: 200px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none; /* clicks handled by seal */
+    }
+
+    /* flaps built from triangles */
     .flap {
       position: absolute;
       width: 0;
       height: 0;
       border-style: solid;
+      transition: transform 0.6s cubic-bezier(.2,1,.2,1), opacity 0.4s;
+      backface-visibility: hidden;
+      z-index: 90;
     }
 
     .flap.top {
       top: 0;
       left: 0;
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
       border-bottom: 100px solid #e75480;
-      z-index: 3;
-      transform-origin: top;
-      transition: transform 1s ease;
+      transform-origin: 50% 0%;
     }
 
     .flap.bottom {
       bottom: 0;
       left: 0;
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
+      border-left: 160px solid transparent;
+      border-right: 160px solid transparent;
       border-top: 100px solid #e75480;
-      z-index: 1;
     }
 
     .flap.left {
@@ -104,8 +118,7 @@
       left: 0;
       border-top: 100px solid transparent;
       border-bottom: 100px solid transparent;
-      border-right: 150px solid #e75480;
-      z-index: 2;
+      border-right: 160px solid #e75480;
     }
 
     .flap.right {
@@ -113,68 +126,102 @@
       right: 0;
       border-top: 100px solid transparent;
       border-bottom: 100px solid transparent;
-      border-left: 150px solid #e75480;
-      z-index: 2;
+      border-left: 160px solid #e75480;
     }
 
-    /* Heart seal */
+    /* Heart seal (clickable) */
     .seal {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      font-size: 2rem;
+      font-size: 2.0rem;
       cursor: pointer;
-      z-index: 4;
+      z-index: 110;
+      user-select: none;
+      pointer-events: auto;
+      transition: transform 0.25s, opacity 0.4s;
     }
 
-    /* Letter */
+    .seal:active { transform: translate(-50%, -50%) scale(0.95); }
+
+    /* The letter (initially hidden: 0 size & invisible) */
     .letter {
-      width: 80%;
-      height: 0;
-      background: white;
-      margin: auto;
-      left: 0;
-      right: 0;
       position: absolute;
-      padding: 20px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      padding: 0;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      overflow-y: auto;
+      z-index: 200;
+      opacity: 0;
+      transition:
+        width 0.6s cubic-bezier(.2,1,.2,1),
+        height 0.6s cubic-bezier(.2,1,.2,1),
+        opacity 0.3s ease,
+        padding 0.3s ease;
       box-sizing: border-box;
       font-family: 'Dancing Script', cursive;
-      font-size: 1.2rem;
-      line-height: 1.5;
-      border-radius: 10px;
-      overflow-y: auto;
-      z-index: 5;
-      transition: height 1s ease;
+      font-size: 1.05rem;
+      line-height: 1.45;
       text-align: left;
-      top: 50%;
-      transform: translateY(-50%);
+      color: #111;
     }
 
-    .envelope.open .flap.top {
-      transform: rotateX(180deg);
+    /* When wrapper has .open, expand the letter and animate flaps away */
+    .envelope-wrapper.open .letter {
+      width: 520px;   /* final readable width */
+      height: 420px;  /* final readable height */
+      padding: 22px;
+      opacity: 1;
     }
 
-    .envelope.open + .letter {
-      height: 500px; /* Show full letter */
+    .envelope-wrapper.open .flap.top {
+      transform: translateY(-120%) rotateX(180deg);
+      opacity: 0;
+    }
+    .envelope-wrapper.open .flap.bottom {
+      transform: translateY(120%);
+      opacity: 0;
+    }
+    .envelope-wrapper.open .flap.left {
+      transform: translateX(-120%);
+      opacity: 0;
+    }
+    .envelope-wrapper.open .flap.right {
+      transform: translateX(120%);
+      opacity: 0;
+    }
+    .envelope-wrapper.open .seal {
+      transform: translate(-50%, -50%) scale(0.6);
+      opacity: 0;
     }
 
-    /* Hearts Falling */
+    /* Hearts Falling (unchanged) */
     .heart {
       position: fixed;
       top: -10px;
       font-size: 24px;
       color: red;
       animation: fall 5s linear infinite;
+      z-index: 999;
     }
-
     @keyframes fall {
       to { transform: translateY(100vh); }
     }
-
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { opacity: 0; } to { opacity: 1; }
+    }
+
+    /* Small responsive tweak */
+    @media (max-width: 640px) {
+      .envelope-wrapper { width: 260px; height: 200px; }
+      .letter { width: 90vw !important; height: 65vh !important; }
     }
   </style>
 </head>
@@ -190,44 +237,51 @@
       I hope you are enjoying ur day. It makes me so happy to see u smiling on this special day of yours.
       You deserve all the love and happiness in this world pero wag naman yung katulad ng love na meron tayo hahaaha
       I'll always be here for u no matter what happen. I miss you so much and I love you so much! ❤️</h1>
+    <div style="height:20px;"></div>
     <div class="heart-btn" onclick="goToStage(3)">💗</div>
   </div>
 
   <!-- Stage 3: Secret Code -->
   <div id="stage3" class="stage hidden">
     <h1>open mo nga to hehe hmmm ang hint ay yung nagalit ka sakin kasi inaasar kita na wala tayo label hahaha</h1>
-    <input type="text" id="code" placeholder="Enter code">
-    <button onclick="checkCode()">Unlock</button>
+    <div style="margin-top:12px;">
+      <input type="text" id="code" placeholder="Enter code">
+      <button onclick="checkCode()">Unlock</button>
+    </div>
     <p id="message"></p>
   </div>
 
   <!-- Stage 4: Envelope & Letter -->
   <div id="stage4" class="stage hidden">
-    <div class="envelope" id="envelope">
-      <div class="flap top"></div>
-      <div class="flap left"></div>
-      <div class="flap right"></div>
-      <div class="flap bottom"></div>
-      <div class="seal" onclick="openEnvelope()">❤️</div>
-    </div>
+    <div class="envelope-wrapper" id="envWrapper">
+      <!-- envelope sits centered -->
+      <div class="envelope" id="envelope">
+        <div class="flap top"></div>
+        <div class="flap left"></div>
+        <div class="flap right"></div>
+        <div class="flap bottom"></div>
+        <div class="seal" id="seal" title="Open letter">❤️</div>
+      </div>
 
-    <div class="letter" id="letter">
-      ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. 
-      so ayun, happiest birthday, bebe! 🥰 idk pano ko ba sisimulan tong bati kasi baka same lang 
-      as before yung mga greetings ko sayo sa previous birthdays mo. pero syempre, may mga bagay talaga 
-      na never nagbabago like how super grateful and thankful pa rin ako na meron akong ikaw sa life ko. 
-      every birthday mo, gusto ko talaga na maramdaman mo how special this day is, kasi special ka sa’kin. 
-      kahit ngayon thru message lang tsaka na yung gift beb hehe, sana maramdaman mo pa rin how much you mean to me. 
-      u deserve all the happiness, love, and success in the world, kaya I’ll always hope na maachieve mo lahat ng goals 
-      mo at makuha lahat ng bagay na pinapangarap mo. gusto ko rin iremind ka na I appreciate everything u do for me, 
-      thank you sa love na binibigay mo sakin. at syempre yung love ko, sayo din yon lahat hindi mauubos at di mawawala. 
-      ang hard ng ldr setup natin, pero nakakaproud kasi kahit malayo tayo sa isa’t isa most of the time, we always 
-      find ways to make it work. kahit once a month lang tayo nagkikita, those moments mean so much to me. kahit minsan 
-      namimiss kita ng sobra, naiisip ko na worth it lahat ng waits ko kasi ikaw yung hinihintay ko. and no matter the distance, 
-      never nagbago yung love ko sayo mas lalo pa ngang lumalalim e. so on your special day, gusto ko lang ulit ipaalala 
-      na i'm so proud of u and i’ll always be here for u, supporting u, cheering for u, and loving u. happy happiest birthday ulit, 
-      bebe. hoping on more birthdays of u na magkasama natin maceleb at more memories na sabay nating ibuild hehe konting tiis nalang beb. 
-      i miss you so much and i love you so much! 
+      <!-- letter is sibling positioned on top; initially hidden -->
+      <div class="letter" id="letter">
+        ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. 
+        so ayun, happiest birthday, bebe! 🥰 idk pano ko ba sisimulan tong bati kasi baka same lang 
+        as before yung mga greetings ko sayo sa previous birthdays mo. pero syempre, may mga bagay talaga 
+        na never nagbabago like how super grateful and thankful pa rin ako na meron akong ikaw sa life ko. 
+        every birthday mo, gusto ko talaga na maramdaman mo how special this day is, kasi special ka sa’kin. 
+        kahit ngayon thru message lang tsaka na yung gift beb hehe, sana maramdaman mo pa rin how much you mean to me. 
+        u deserve all the happiness, love, and success in the world, kaya I’ll always hope na maachieve mo lahat ng goals 
+        mo at makuha lahat ng bagay na pinapangarap mo. gusto ko rin iremind ka na I appreciate everything u do for me, 
+        thank you sa love na binibigay mo sakin. at syempre yung love ko, sayo din yon lahat hindi mauubos at di mawawala. 
+        ang hard ng ldr setup natin, pero nakakaproud kasi kahit malayo tayo sa isa’t isa most of the time, we always 
+        find ways to make it work. kahit once a month lang tayo nagkikita, those moments mean so much to me. kahit minsan 
+        namimiss kita ng sobra, naiisip ko na worth it lahat ng waits ko kasi ikaw yung hinihintay ko. and no matter the distance, 
+        never nagbago yung love ko sayo mas lalo pa ngang lumalalim e. so on your special day, gusto ko lang ulit ipaalala 
+        na i'm so proud of u and i’ll always be here for u, supporting u, cheering for u, and loving u. happy happiest birthday ulit, 
+        bebe. hoping on more birthdays of u na magkasama natin maceleb at more memories na sabay nating ibuild hehe konting tiis nalang beb. 
+        i miss you so much and i love you so much!
+      </div>
     </div>
   </div>
 
@@ -235,6 +289,14 @@
     function goToStage(stage) {
       document.querySelectorAll('.stage').forEach(div => div.classList.add('hidden'));
       document.getElementById('stage' + stage).classList.remove('hidden');
+      // reset envelope state if returning
+      if (stage === 4) {
+        document.getElementById('envWrapper').classList.remove('open');
+        // ensure letter hidden
+        const letter = document.getElementById('letter');
+        letter.style.width = '';
+        letter.style.height = '';
+      }
     }
 
     function checkCode() {
@@ -248,14 +310,20 @@
       }
     }
 
+    // open only when seal (heart) clicked
+    document.addEventListener('click', function (e) {
+      if (e.target && e.target.id === 'seal') {
+        openEnvelope();
+      }
+    });
+
     function openEnvelope() {
-      const env = document.getElementById('envelope');
-      env.classList.add('open');
+      const wrapper = document.getElementById('envWrapper');
+      // add class that expands letter and animates flaps away
+      wrapper.classList.add('open');
 
-      const letter = document.getElementById('letter');
-      letter.style.height = "500px";
-
-      startHearts();
+      // start hearts after a short delay so letter is visible first
+      setTimeout(startHearts, 300);
     }
 
     function startHearts() {
@@ -266,12 +334,12 @@
         heart.style.left = Math.random() * 100 + "vw";
         heart.style.animationDuration = (2 + Math.random() * 3) + "s";
         document.body.appendChild(heart);
-
         setTimeout(() => { heart.remove(); }, 5000);
       }
     }
   </script>
 </body>
 </html>
+
 
 
