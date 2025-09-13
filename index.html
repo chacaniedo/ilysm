@@ -1,141 +1,352 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Happy Birthday Bebe💖</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: url('pic2.jpg') no-repeat center center/cover;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: #fff;
-      text-align: center;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Surprise for Bebe 💌</title>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --accent:#d96f9a;
+    --accent-dark:#c05880;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: url('YOUR_BG.jpg') center/cover no-repeat;
+    font-family: 'Quicksand', sans-serif;
+    color:#222;
+    overflow:hidden;
+  }
 
-    .hidden { display: none; }
+  /* --- container --- */
+  .wrap{
+    width:870px;
+    max-width:95%;
+    height:520px;
+    background: rgba(255,255,255,0.85);
+    border-radius:16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    display:grid;
+    grid-template-columns: 1fr 420px;
+    overflow:hidden;
+  }
 
-    /* Hearts */
-    .hearts {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 20px;
-    }
-    .heart {
-      font-size: 60px;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
-    .heart.clicked {
-      color: #ff4d6d;
-      transform: scale(1.3);
-    }
+  /* left: instructions / input */
+  .left{
+    padding:36px;
+  }
+  h1{margin:0 0 10px;font-family:'Dancing Script',cursive;color:var(--accent-dark);font-size:42px}
+  p.lead{margin:6px 0 24px;color:#444}
 
-    /* Envelope */
-    .envelope {
-      width: 300px;
-      height: 200px;
-      background: #ff4d6d;
-      position: relative;
-      cursor: pointer;
-      border-radius: 6px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-      transition: transform 0.3s;
-    }
-    .envelope:hover {
-      transform: scale(1.05);
-    }
-    .flap {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 0;
-      height: 0;
-      border-left: 150px solid transparent;
-      border-right: 150px solid transparent;
-      border-bottom: 100px solid #ff758c;
-    }
-    .letter {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 280px;
-      height: 180px;
-      background: #fff;
-      color: #333;
-      margin: 10px;
-      padding: 15px;
-      box-sizing: border-box;
-      transform: translateY(100%);
-      transition: transform 1s;
-      overflow-y: auto;
-      border-radius: 4px;
-      text-align: left;
-    }
-    .envelope.open .letter {
-      transform: translateY(0);
-    }
-  </style>
+  /* secret code box */
+  .code-box{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:12px;
+  }
+  input.code{
+    padding:12px 14px;
+    font-size:16px;
+    border-radius:10px;
+    border:2px solid #eee;
+    outline:none;
+    width:220px;
+    transition:box-shadow .2s, border-color .2s;
+  }
+  input.code:focus{box-shadow:0 4px 14px rgba(0,0,0,0.08); border-color:var(--accent)}
+  button.unlock{
+    padding:12px 16px;
+    background:var(--accent);
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:600;
+  }
+
+  .hint{font-size:13px;color:#666;margin-top:6px}
+  .msg{height:20px;margin-top:8px;color:#c0392b;font-weight:600}
+
+  /* right: envelope area */
+  .right{
+    background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    padding:24px;
+  }
+
+  /* envelope (hidden until unlocked) */
+  .envelope{
+    width:420px;
+    height:280px;
+    position:relative;
+    perspective:900px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  /* closed envelope base */
+  .env-body{
+    width:420px;
+    height:220px;
+    background:#fff;
+    border:2px solid #e6e6e6;
+    border-radius:8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    position:relative;
+    z-index:1;
+    overflow:hidden;
+  }
+
+  /* top flap (rotates) */
+  .env-flap{
+    position:absolute;
+    top:-2px;
+    left:0;
+    width:100%;
+    height:120px;
+    background:linear-gradient(180deg,var(--accent),var(--accent-dark));
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform-origin: top;
+    transform: rotateX(0deg);
+    transition: transform 800ms cubic-bezier(.2,.9,.3,1);
+    z-index:4;
+  }
+
+  .env-flap.open{
+    transform: rotateX(-180deg);
+  }
+
+  /* letter inside (initially hidden under body) */
+  .letter{
+    position:absolute;
+    left:24px;
+    right:24px;
+    bottom:18px;
+    width:calc(100% - 48px);
+    height:calc(100% - 48px);
+    background: #fffefb;
+    border-radius:8px;
+    padding:20px 18px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+    transform: translateY(90%);
+    transition: transform 700ms cubic-bezier(.2,.9,.3,1), opacity 400ms;
+    opacity:0;
+    overflow:auto;
+    font-family:'Dancing Script',cursive;
+    font-size:18px;
+    line-height:1.6;
+    color:#2b2b2b;
+  }
+
+  .letter.show{
+    transform: translateY(0);
+    opacity:1;
+  }
+
+  /* trigger button overlay (so user clicks envelope) */
+  .env-body .click-area{
+    position:absolute;
+    inset:0;
+    z-index:5;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .env-body .open-tip{
+    background:rgba(255,255,255,0.9);
+    padding:8px 14px;
+    border-radius:20px;
+    border:1px solid #f0f0f0;
+    color:#444;
+    font-weight:600;
+  }
+
+  /* small popup photo reveal area */
+  .photo-reveal{
+    position:absolute;
+    left:18px;
+    bottom:12px;
+    width:120px;
+    height:80px;
+    border-radius:8px;
+    overflow:hidden;
+    box-shadow:0 6px 18px rgba(0,0,0,0.12);
+    opacity:0;
+    transform: translateY(20px);
+    transition: opacity 700ms, transform 700ms;
+    border:2px solid #fff;
+  }
+  .photo-reveal.show{opacity:1; transform: translateY(0)}
+  .photo-reveal img{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* falling hearts container */
+  .hearts-fall{
+    pointer-events:none;
+    position:absolute;
+    inset:0;
+    z-index:60;
+    overflow:hidden;
+  }
+
+  /* small success confetti-ish heart style (created via JS) */
+  .falling-heart{
+    position:absolute;
+    font-size:18px;
+    opacity:0;
+    transform: translateY(-10px) scale(.8);
+    animation: fall 3s linear forwards;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.18));
+  }
+  @keyframes fall{
+    0%{opacity:1; transform: translateY(-10px) scale(.8)}
+    80%{opacity:1}
+    100%{transform: translateY(520px) scale(1.05); opacity:0}
+  }
+
+  /* small shake for wrong code */
+  @keyframes shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+  }
+  .shake{ animation: shake 600ms; }
+
+  /* responsive */
+  @media(max-width:880px){
+    .wrap{grid-template-columns:1fr; height:86vh}
+    .right{display:flex; padding:18px}
+    .photo-reveal{display:none}
+  }
+</style>
 </head>
 <body>
 
-  <!-- Step 1: Hearts -->
-  <div id="puzzle">
-    <h2>Click all 3 hearts to unlock 💕</h2>
-    <div class="hearts">
-      <div class="heart" onclick="clickHeart(this)">🤍</div>
-      <div class="heart" onclick="clickHeart(this)">🤍</div>
-      <div class="heart" onclick="clickHeart(this)">🤍</div>
+<div class="wrap">
+  <!-- LEFT: instructions + secret input -->
+  <div class="left">
+    <h1>Surprise for Bebe 💖</h1>
+    <p class="lead">Enter the code to mag-unlock.</p>
+
+    <div class="code-box">
+      <input type="text" id="codeInput" class="code" placeholder="Enter secret code here">
+      <button class="unlock" id="tryBtn">Unlock</button>
     </div>
+
+    <div class="hint">Tip: make it personal — inside-joke or nickname works best 💕</div>
+    <div class="msg" id="msg"></div>
+
+    <p style="margin-top:22px;color:#555">Pag tama ang code: lalabas ang sobre. Pag na-open, may maliit na picture reveal + falling hearts.</p>
   </div>
 
-  <!-- Step 2: Envelope -->
-  <div id="envelope-container" class="hidden">
-    <div class="envelope" onclick="this.classList.toggle('open')">
-      <div class="flap"></div>
-      <div class="letter">
-        <h2>Happy Birthday, Bebe 💖</h2>
-        <p>
-          ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. so ayun, happiest birthday, bebe! 🥰 
-          idk pano ko ba sisimulan tong bati kasi baka same lang as before yung mga greetings ko sayo sa previous birthdays mo. 
-          pero syempre, may mga bagay talaga na never nagbabago like how super grateful and thankful pa rin ako na meron akong ikaw sa life ko. 
-          every birthday mo, gusto ko talaga na maramdaman mo how special this day is, kasi special ka sa’kin. 
-          kahit ngayon thru message lang tsaka na yung gift beb hehe, sana maramdaman mo pa rin how much you mean to me. 
-          u deserve all the happiness, love, and success in the world, kaya I’ll always hope na maachieve mo lahat ng goals mo at makuha lahat ng bagay 
-          na pinapangarap mo. gusto ko rin iremind ka na I appreciate everything u do for me, thank you sa love na binibigay mo sakin. 
-          at syempre yung love ko, sayo din yon lahat hindi mauubos at di mawawala. ang hard ng ldr setup natin, 
-          pero nakakaproud kasi kahit malayo tayo sa isa’t isa most of the time, we always find ways to make it work. 
-          kahit once a month lang tayo nagkikita, those moments mean so much to me. kahit minsan namimiss kita ng sobra, 
-          naiisip ko na worth it lahat ng waits ko kasi ikaw yung hinihintay ko. and no matter the distance, never nagbago yung love ko sayo 
-          mas lalo pa ngang lumalalim e. so on your special day, gusto ko lang ulit ipaalala na i'm so proud of u and i’ll always be here for u, 
-          supporting u, cheering for u, and loving u. happy happiest birthday ulit, bebe. 
-          hoping on more birthdays of u na magkasama natin maceleb at more memories na sabay nating ibuild hehe konting tiis nalang beb. 
-          i miss you so much and i love you so much!
-        </p>
+  <!-- RIGHT: envelope zone -->
+  <div class="right">
+    <div class="envelope" id="envelope" aria-hidden="true">
+      <div class="env-body">
+        <div class="click-area">
+          <div class="open-tip">Click envelope to open</div>
+        </div>
+      </div>
+
+      <div class="env-flap" id="flap"></div>
+
+      <div class="letter" id="letter">
+        <!-- EXACT MESSAGE (user requested) -->
+ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. so ayun, happiest birthday, bebe! 🥰 idk pano ko ba sisimulan tong bati kasi baka same lang as before yung mga greetings ko sayo sa previous birthdays mo. pero syempre, may mga bagay talaga na never nagbabago like how super grateful and thankful pa rin ako na meron akong ikaw sa life ko. every birthday mo, gusto ko talaga na maramdaman mo how special this day is, kasi special ka sa’kin. kahit ngayon thru message lang tsaka na yung gift beb hehe, sana maramdaman mo pa rin how much you mean to me. u deserve all the happiness, love, and success in the world, kaya I’ll always hope na maachieve mo lahat ng goals mo at makuha lahat ng bagay na pinapangarap mo. gusto ko rin iremind ka na I appreciate everything u do for me, thank you sa love na binibigay mo sakin. at syempre yung love ko, sayo din yon lahat hindi mauubos at di mawawala. ang hard ng ldr setup natin, pero nakakaproud kasi kahit malayo tayo sa isa’t isa most of the time, we always find ways to make it work. kahit once a month lang tayo nagkikita, those moments mean so much to me. kahit minsan namimiss kita ng sobra, naiisip ko na worth it lahat ng waits ko kasi ikaw yung hinihintay ko. and no matter the distance, never nagbago yung love ko sayo mas lalo pa ngang lumalalim e. so on your special day, gusto ko lang ulit ipaalala na i'm so proud of u and i’ll always be here for u, supporting u, cheering for u, and loving u. happy happiest birthday ulit, bebe. hoping on more birthdays of u na magkasama natin maceleb at more memories na sabay nating ibuild hehe konting tiis nalang beb. i miss you so much and i love you so much!
+      </div>
+
+      <div class="photo-reveal" id="photoReveal">
+        <img id="photoImg" src="pic2.jpg" alt="photo">
       </div>
     </div>
+
+    <div class="hearts-fall" id="fallArea"></div>
   </div>
+</div>
 
-  <script>
-    let heartsClicked = 0;
-    function clickHeart(el) {
-      if (!el.classList.contains("clicked")) {
-        el.classList.add("clicked");
-        el.textContent = "❤️";
-        heartsClicked++;
-      }
-      if (heartsClicked === 3) {
-        setTimeout(() => {
-          document.getElementById("puzzle").classList.add("hidden");
-          document.getElementById("envelope-container").classList.remove("hidden");
-        }, 500);
-      }
+<script>
+  // --- CONFIG: change this secret code to anything you want ---
+  const SECRET_CODE = '071622'; // <-- change to your code (ex: bebe2025)
+  // --- end config ---
+
+  const codeInput = document.getElementById('codeInput');
+  const tryBtn = document.getElementById('tryBtn');
+  const msg = document.getElementById('msg');
+  const envelope = document.getElementById('envelope');
+  const flap = document.getElementById('flap');
+  const letter = document.getElementById('letter');
+  const fallArea = document.getElementById('fallArea');
+  const photoReveal = document.getElementById('photoReveal');
+
+  // handle unlock attempt
+  tryBtn.addEventListener('click', attemptUnlock);
+  codeInput.addEventListener('keydown', (e)=>{ if(e.key==='Enter') attemptUnlock(); });
+
+  function attemptUnlock(){
+    const val = codeInput.value.trim();
+    if(!val){ msg.textContent = 'Please enter the secret code'; return; }
+    if(val === SECRET_CODE){
+      msg.style.color = '#2d8a4a';
+      msg.textContent = 'Code accepted! Opening the envelope...';
+      // show envelope
+      document.querySelector('.hearts')?.classList?.add('hidden'); // if hearts exist
+      setTimeout(()=> {
+        envelope.style.display = 'block';
+        envelope.setAttribute('aria-hidden','false');
+        // auto-scroll hint remove
+        document.querySelector('.open-tip')?.remove();
+      }, 500);
+      // clear message after
+      setTimeout(()=> msg.textContent = '', 2200);
+    } else {
+      msg.style.color = '#c0392b';
+      msg.textContent = 'Wrong code! Try again.';
+      // shake effect
+      codeInput.classList.remove('shake');
+      void codeInput.offsetWidth;
+      codeInput.classList.add('shake');
     }
-  </script>
+  }
 
+  // click envelope to open (only after displayed)
+  envelope.addEventListener('click', () => {
+    // flap animation
+    flap.classList.add('open');
+    // reveal letter
+    setTimeout(()=> letter.classList.add('show'), 650);
+    // show photo small reveal
+    setTimeout(()=> photoReveal.classList.add('show'), 1000);
+    // falling hearts effect
+    createFallingHearts(20);
+  });
+
+  // falling hearts generator
+  function createFallingHearts(count=12){
+    const colors = ['#ff6b9a','#ff9bb2','#ffb3c7','#ffd6e5'];
+    for(let i=0;i<count;i++){
+      const el = document.createElement('div');
+      el.className = 'falling-heart';
+      el.style.left = (Math.random()*85 + 5) + '%';
+      el.style.top = (-Math.random()*30)+'px';
+      el.style.fontSize = (12 + Math.random()*18) + 'px';
+      el.style.color = colors[Math.floor(Math.random()*colors.length)];
+      el.textContent = '❤';
+      fallArea.appendChild(el);
+      // remove when animation ends
+      el.addEventListener('animationend', ()=> el.remove());
+    }
+  }
+</script>
 </body>
 </html>
+
