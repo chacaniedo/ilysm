@@ -7,26 +7,18 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      color: white;
+      background: url('pic2.jpg') no-repeat center center/cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
       text-align: center;
-      background: black;
-      overflow: hidden;
     }
+
     .hidden { display: none; }
-    .center {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    button {
-      padding: 12px 24px;
-      font-size: 18px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: #ff4d6d;
-      color: white;
-    }
+
+    /* Hearts */
     .hearts {
       display: flex;
       justify-content: center;
@@ -42,53 +34,57 @@
       color: #ff4d6d;
       transform: scale(1.3);
     }
-    /* Slideshow background */
-    .slideshow {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -1;
-      overflow: hidden;
+
+    /* Envelope */
+    .envelope {
+      width: 300px;
+      height: 200px;
+      background: #ff4d6d;
+      position: relative;
+      cursor: pointer;
+      border-radius: 6px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      transition: transform 0.3s;
     }
-    .slideshow img {
+    .envelope:hover {
+      transform: scale(1.05);
+    }
+    .flap {
       position: absolute;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      animation: fade 15s infinite;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 0;
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-bottom: 100px solid #ff758c;
     }
-    .slideshow img:nth-child(1) { animation-delay: 0s; }
-    .slideshow img:nth-child(2) { animation-delay: 5s; }
-    .slideshow img:nth-child(3) { animation-delay: 10s; }
-    @keyframes fade {
-      0% { opacity: 0; }
-      10% { opacity: 1; }
-      30% { opacity: 1; }
-      40% { opacity: 0; }
-      100% { opacity: 0; }
+    .letter {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 280px;
+      height: 180px;
+      background: #fff;
+      color: #333;
+      margin: 10px;
+      padding: 15px;
+      box-sizing: border-box;
+      transform: translateY(100%);
+      transition: transform 1s;
+      overflow-y: auto;
+      border-radius: 4px;
+      text-align: left;
     }
-    /* Typewriter */
-    #message {
-      width: 70%;
-      margin: auto;
-      font-size: 20px;
-      line-height: 1.6;
-      white-space: pre-line;
-      border-right: 2px solid white;
-      overflow: hidden;
+    .envelope.open .letter {
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
 
-  <!-- Intro -->
-  <div id="intro" class="center">
-    <h1>Hi bebe, I have something for you 💖</h1>
-    <button onclick="showPuzzle()">Click to Start</button>
-  </div>
-
-  <!-- Puzzle Unlock -->
-  <div id="puzzle" class="center hidden">
+  <!-- Step 1: Hearts -->
+  <div id="puzzle">
     <h2>Click all 3 hearts to unlock 💕</h2>
     <div class="hearts">
       <div class="heart" onclick="clickHeart(this)">🤍</div>
@@ -97,26 +93,34 @@
     </div>
   </div>
 
-  <!-- Slideshow + Message -->
-  <div id="slideshow-container" class="hidden">
-    <div class="slideshow">
-      <!-- Replace with your own photos -->
-      <img src="pic1.jpg" alt="">
-      <img src="pic2.jpg" alt="">
-      <img src="pic3.jpg" alt="">
-    </div>
-    <div class="center">
-      <h1>Happy Birthday, my love! 🎉</h1>
-      <div id="message"></div>
+  <!-- Step 2: Envelope -->
+  <div id="envelope-container" class="hidden">
+    <div class="envelope" onclick="this.classList.toggle('open')">
+      <div class="flap"></div>
+      <div class="letter">
+        <h2>Happy Birthday, Bebe 💖</h2>
+        <p>
+          ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. so ayun, happiest birthday, bebe! 🥰 
+          idk pano ko ba sisimulan tong bati kasi baka same lang as before yung mga greetings ko sayo sa previous birthdays mo. 
+          pero syempre, may mga bagay talaga na never nagbabago like how super grateful and thankful pa rin ako na meron akong ikaw sa life ko. 
+          every birthday mo, gusto ko talaga na maramdaman mo how special this day is, kasi special ka sa’kin. 
+          kahit ngayon thru message lang tsaka na yung gift beb hehe, sana maramdaman mo pa rin how much you mean to me. 
+          u deserve all the happiness, love, and success in the world, kaya I’ll always hope na maachieve mo lahat ng goals mo at makuha lahat ng bagay 
+          na pinapangarap mo. gusto ko rin iremind ka na I appreciate everything u do for me, thank you sa love na binibigay mo sakin. 
+          at syempre yung love ko, sayo din yon lahat hindi mauubos at di mawawala. ang hard ng ldr setup natin, 
+          pero nakakaproud kasi kahit malayo tayo sa isa’t isa most of the time, we always find ways to make it work. 
+          kahit once a month lang tayo nagkikita, those moments mean so much to me. kahit minsan namimiss kita ng sobra, 
+          naiisip ko na worth it lahat ng waits ko kasi ikaw yung hinihintay ko. and no matter the distance, never nagbago yung love ko sayo 
+          mas lalo pa ngang lumalalim e. so on your special day, gusto ko lang ulit ipaalala na i'm so proud of u and i’ll always be here for u, 
+          supporting u, cheering for u, and loving u. happy happiest birthday ulit, bebe. 
+          hoping on more birthdays of u na magkasama natin maceleb at more memories na sabay nating ibuild hehe konting tiis nalang beb. 
+          i miss you so much and i love you so much!
+        </p>
+      </div>
     </div>
   </div>
 
   <script>
-    function showPuzzle() {
-      document.getElementById("intro").classList.add("hidden");
-      document.getElementById("puzzle").classList.remove("hidden");
-    }
-
     let heartsClicked = 0;
     function clickHeart(el) {
       if (!el.classList.contains("clicked")) {
@@ -125,40 +129,10 @@
         heartsClicked++;
       }
       if (heartsClicked === 3) {
-        setTimeout(showSlideshow, 500);
-      }
-    }
-
-    function showSlideshow() {
-      document.getElementById("puzzle").classList.add("hidden");
-      document.getElementById("slideshow-container").classList.remove("hidden");
-      typeWriter();
-    }
-
-    // Typewriter Effect
-    const text = `Ala nakakainis naman di ko tuloy nasend kaagad kagabi kaya pinipigilan ko pa antok ko e. 
-So ayun, happiest birthday, bebe! 🥰 Idk pano ko ba sisimulan tong bati kasi baka same lang as before yung mga greetings ko sayo sa previous birthdays mo. 
-Pero syempre, may mga bagay talaga na never nagbabago like how super grateful and thankful pa rin ako na meron akong ikaw sa life ko. 
-
-Every birthday mo, gusto ko talaga na maramdaman mo how special this day is, kasi special ka sa’kin. 
-Kahit ngayon thru message lang tsaka na yung gift beb hehe, sana maramdaman mo pa rin how much you mean to me. 
-
-U deserve all the happiness, love, and success in the world, kaya I’ll always hope na maachieve mo lahat ng goals mo at makuha lahat ng bagay na pinapangarap mo. 
-Gusto ko rin iremind ka na I appreciate everything u do for me, thank you sa love na binibigay mo sakin. 
-At syempre yung love ko, sayo din yon lahat hindi mauubos at di mawawala. 
-
-Ang hard ng ldr setup natin, pero nakakaproud kasi kahit malayo tayo, we always find ways to make it work. 
-Kahit once a month lang tayo nagkikita, those moments mean so much to me. 
-
-Happy happiest birthday ulit, bebe. Hoping on more birthdays na magkasama natin i-celebrate at more memories na sabay nating i-build. 
-Konting tiis na lang beb. I miss you so much and I love you so much! 😘`;
-
-    let i = 0;
-    function typeWriter() {
-      if (i < text.length) {
-        document.getElementById("message").innerHTML += text.charAt(i);
-        i++;
-        setTimeout(typeWriter, 40);
+        setTimeout(() => {
+          document.getElementById("puzzle").classList.add("hidden");
+          document.getElementById("envelope-container").classList.remove("hidden");
+        }, 500);
       }
     }
   </script>
